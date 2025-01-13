@@ -14,8 +14,8 @@ public class Student {
     private String name;
     private String lastName;
     private String email;
-    private String phone;
+    private Long phone;
     private String address;
-    private String dni;
+    private Long dni;
     private boolean status;
 }

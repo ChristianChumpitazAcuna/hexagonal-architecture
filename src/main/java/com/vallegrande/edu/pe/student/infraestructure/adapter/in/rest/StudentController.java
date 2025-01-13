@@ -2,6 +2,8 @@ package com.vallegrande.edu.pe.student.infraestructure.adapter.in.rest;
 
 import com.vallegrande.edu.pe.student.application.port.in.StudentServicePort;
 import com.vallegrande.edu.pe.student.domain.model.Student;
+import com.vallegrande.edu.pe.student.domain.model.dto.request.StudentRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +17,7 @@ public class StudentController {
     private final StudentServicePort studentServicePort;
 
     @PostMapping
-    public ResponseEntity<Student> create(@RequestBody Student student) {
+    public ResponseEntity<Student> create(@Valid @RequestBody StudentRequest student) {
         return ResponseEntity.ok(studentServicePort.createStudent(student));
     }
 

@@ -1,9 +1,6 @@
 package com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +14,8 @@ public class StudentEntity {
     private String name;
     private String lastName;
     private String email;
-    private String phone;
+    private Long phone;
     private String address;
-    private String dni;
+    private Long dni;
     private boolean status;
 }

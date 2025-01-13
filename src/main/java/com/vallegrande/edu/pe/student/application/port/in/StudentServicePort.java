@@ -1,11 +1,12 @@
 package com.vallegrande.edu.pe.student.application.port.in;
 
 import com.vallegrande.edu.pe.student.domain.model.Student;
+import com.vallegrande.edu.pe.student.domain.model.dto.request.StudentRequest;
 
 import java.util.List;
 
 public interface StudentServicePort {
-    Student createStudent(Student student);
+    Student createStudent(StudentRequest student);
 
     Student getStudentById(Long id);
 

@@ -21,6 +21,7 @@ public class StudentRepositoryAdapter implements StudentRepository {
     @Override
     public Student save(Student student) {
         StudentEntity entity = studentMapper.toEntity(student);
+        entity.setStatus(true);
         return studentMapper.toDomain(studentJpaRepository.save(entity));
     }
 
