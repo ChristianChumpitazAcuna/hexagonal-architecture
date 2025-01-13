@@ -3,6 +3,7 @@ package com.vallegrande.edu.pe.student.application.service;
 import com.vallegrande.edu.pe.student.application.port.in.StudentServicePort;
 import com.vallegrande.edu.pe.student.domain.repository.StudentRepository;
 import com.vallegrande.edu.pe.student.domain.model.Student;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class StudentService implements StudentServicePort {
+public class StudentServiceImpl implements StudentServicePort {
     private final StudentRepository repository;
 
     @Override
@@ -30,7 +31,15 @@ public class StudentService implements StudentServicePort {
     }
 
     @Override
-    public void deleteStudentById(Long id) {
-        repository.deleteById(id);
+    public List<Student> getStudentsByStatus(boolean status) {
+        return repository.findByStatus(status);
     }
+
+    @Override
+    @Transactional
+    public void changeStudentStatus(Long id, boolean status) {
+        repository.changeStatus(id, status);
+    }
+
+
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -36,11 +35,21 @@ public class StudentRepositoryAdapter implements StudentRepository {
         return studentJpaRepository.findAll()
                 .stream()
                 .map(studentMapper::toDomain)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
-    public void deleteById(Long id) {
-        studentJpaRepository.deleteById(id);
+    public List<Student> findByStatus(boolean status) {
+        return studentJpaRepository.findByStatus(status)
+                .stream()
+                .map(studentMapper::toDomain)
+                .toList();
     }
+
+    @Override
+    public void changeStatus(Long id, boolean status) {
+        studentJpaRepository.changeStatus(id, status);
+    }
+
+
 }

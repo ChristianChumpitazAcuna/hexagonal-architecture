@@ -2,8 +2,17 @@ package com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.r
 
 import com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.entity.StudentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface StudentJpaRepository extends JpaRepository<StudentEntity, Long> {
+    List<StudentEntity> findByStatus(boolean status);
+
+    @Modifying
+    @Query("update StudentEntity s set s.status = ?2 where s.id = ?1")
+    void changeStatus(Long id, boolean status);
 }

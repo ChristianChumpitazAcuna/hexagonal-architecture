@@ -29,9 +29,14 @@ public class StudentController {
         return ResponseEntity.ok(studentServicePort.getAllStudents());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        studentServicePort.deleteStudentById(id);
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Student>> getAllByStatus(@PathVariable boolean status) {
+        return ResponseEntity.ok(studentServicePort.getStudentsByStatus(status));
+    }
+
+    @PutMapping("changeStatus/{status}/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id, @PathVariable boolean status) {
+        studentServicePort.changeStudentStatus(id, status);
         return ResponseEntity.noContent().build();
     }
 }

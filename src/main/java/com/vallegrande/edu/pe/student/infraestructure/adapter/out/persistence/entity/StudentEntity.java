@@ -20,4 +20,5 @@ public class StudentEntity {
     private String phone;
     private String address;
     private String dni;
+    private boolean status;
 }

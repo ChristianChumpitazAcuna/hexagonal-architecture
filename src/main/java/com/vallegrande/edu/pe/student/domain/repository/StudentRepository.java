@@ -12,5 +12,7 @@ public interface StudentRepository {
 
     List<Student> findAll();
 
-    void deleteById(Long id);
+    List<Student> findByStatus(boolean status);
+
+    void changeStatus(Long id, boolean status);
 }

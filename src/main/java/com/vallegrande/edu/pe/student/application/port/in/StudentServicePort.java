@@ -6,7 +6,12 @@ import java.util.List;
 
 public interface StudentServicePort {
     Student createStudent(Student student);
+
     Student getStudentById(Long id);
+
     List<Student> getAllStudents();
-    void deleteStudentById(Long id);
+
+    List<Student> getStudentsByStatus(boolean status);
+
+    void changeStudentStatus(Long id, boolean status);
 }
