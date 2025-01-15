@@ -4,6 +4,7 @@ package com.vallegrande.edu.pe.student.domain.model.dto.request;
 import com.vallegrande.edu.pe.student.domain.validation.DigitCount;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Getter
 @Setter

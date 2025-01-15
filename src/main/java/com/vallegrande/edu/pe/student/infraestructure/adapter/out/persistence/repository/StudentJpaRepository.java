@@ -18,4 +18,10 @@ public interface StudentJpaRepository extends JpaRepository<StudentEntity, Long>
     @Modifying
     @Query("update StudentEntity s set s.status = ?2 where s.id = ?1")
     void changeStatus(Long id, boolean status);
+
+    boolean existsByPhone(Long phone);
+
+    boolean existsByDni(Long dni);
+
+    boolean existsByEmail(String email);
 }

@@ -75,5 +75,20 @@ public class StudentRepositoryAdapter implements StudentRepository {
                 .toList();
     }
 
+    @Override
+    public boolean existsByPhone(Long phone) {
+        return studentJpaRepository.existsByPhone(phone);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return studentJpaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByDni(Long dni) {
+        return studentJpaRepository.existsByDni(dni);
+    }
+
 
 }

@@ -19,4 +19,10 @@ public interface StudentRepository {
     void changeStatus(Long id, boolean status);
 
     List<Student> searchByTerm(String searchTerm, boolean status);
+
+    boolean existsByPhone(Long phone);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByDni(Long dni);
 }

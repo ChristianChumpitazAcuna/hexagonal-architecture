@@ -1,16 +1,17 @@
 spring:
   application:
     name: ms-student
-    datasource:
-      url: jdbc:postgresql://db.gnlymwkcxahulaolbbbe.supabase.co:5432/postgres
-      driver-class-name: org.postgresql.Driver
-      username: postgres
-      password: EducationDev@123
-    jpa:
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
-      hibernate:
-        ddl-auto: update
-      show-sql: true
+  datasource:
+    url: jdbc:postgresql://aws-0-us-west-1.pooler.supabase.com:6543/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres.gnlymwkcxahulaolbbbe
+    password: EducationDev@123
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
 
 logging:
   level:

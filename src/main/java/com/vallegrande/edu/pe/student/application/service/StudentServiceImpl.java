@@ -5,6 +5,7 @@ import com.vallegrande.edu.pe.student.application.port.out.mapper.StudentRequest
 import com.vallegrande.edu.pe.student.domain.model.dto.request.StudentRequest;
 import com.vallegrande.edu.pe.student.domain.repository.StudentRepository;
 import com.vallegrande.edu.pe.student.domain.model.Student;
+import com.vallegrande.edu.pe.student.infraestructure.adapter.in.rest.exception.UniqueFiledViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class StudentServiceImpl implements StudentServicePort {
 
     @Override
     public Student createStudent(StudentRequest student) {
+        validateUniqueFields(student);
         var studentToSave = mapperForCreate.toDomain(student);
         return repository.save(studentToSave);
     }
@@ -28,6 +30,8 @@ public class StudentServiceImpl implements StudentServicePort {
     public Student updateStudent(Long id, StudentRequest student) {
         Student existingStudent = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        validateUniqueFields(student);
 
         existingStudent.setId(id);
         existingStudent.setName(student.getName());
@@ -69,4 +73,17 @@ public class StudentServiceImpl implements StudentServicePort {
         }
         return repository.searchByTerm(searchTerm, status);
     }
+
+    private void validateUniqueFields(StudentRequest student) {
+        if (repository.existsByPhone(student.getPhone())) {
+            throw new UniqueFiledViolationException("Phone already exists");
+        }
+        if (repository.existsByEmail(student.getEmail())) {
+            throw new UniqueFiledViolationException("Email already exists");
+        }
+        if (repository.existsByDni(student.getDni())) {
+            throw new UniqueFiledViolationException("DNI already exists");
+        }
+    }
+
 }
