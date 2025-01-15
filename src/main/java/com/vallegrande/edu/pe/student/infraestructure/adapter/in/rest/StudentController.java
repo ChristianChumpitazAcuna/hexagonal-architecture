@@ -21,6 +21,17 @@ public class StudentController {
         return ResponseEntity.ok(studentServicePort.createStudent(student));
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Student> update(@PathVariable Long id, @Valid @RequestBody StudentRequest student) {
+        return ResponseEntity.ok(studentServicePort.updateStudent(id, student));
+    }
+
+    @PutMapping("changeStatus/{status}/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id, @PathVariable boolean status) {
+        studentServicePort.changeStudentStatus(id, status);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Student> getById(@PathVariable Long id) {
         return ResponseEntity.ok(studentServicePort.getStudentById(id));
@@ -36,9 +47,11 @@ public class StudentController {
         return ResponseEntity.ok(studentServicePort.getStudentsByStatus(status));
     }
 
-    @PutMapping("changeStatus/{status}/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id, @PathVariable boolean status) {
-        studentServicePort.changeStudentStatus(id, status);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/search")
+    public ResponseEntity<List<Student>> search(
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(required = false) boolean status
+    ) {
+        return ResponseEntity.ok(studentServicePort.searchStudent(searchTerm, status));
     }
 }

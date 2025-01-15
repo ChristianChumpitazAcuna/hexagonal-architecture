@@ -8,6 +8,8 @@ import java.util.List;
 public interface StudentServicePort {
     Student createStudent(StudentRequest student);
 
+    Student updateStudent(Long id, StudentRequest student);
+
     Student getStudentById(Long id);
 
     List<Student> getAllStudents();
@@ -15,4 +17,6 @@ public interface StudentServicePort {
     List<Student> getStudentsByStatus(boolean status);
 
     void changeStudentStatus(Long id, boolean status);
+
+    List<Student> searchStudent(String searchTerm, boolean status);
 }
