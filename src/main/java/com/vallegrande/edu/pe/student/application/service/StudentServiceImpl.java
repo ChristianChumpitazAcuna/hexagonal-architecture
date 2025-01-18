@@ -3,9 +3,9 @@ package com.vallegrande.edu.pe.student.application.service;
 import com.vallegrande.edu.pe.student.application.port.in.StudentServicePort;
 import com.vallegrande.edu.pe.student.application.port.out.mapper.StudentRequestMapper;
 import com.vallegrande.edu.pe.student.domain.model.dto.request.StudentRequest;
-import com.vallegrande.edu.pe.student.domain.repository.StudentRepository;
+import com.vallegrande.edu.pe.student.domain.port.StudentPersistencePort;
 import com.vallegrande.edu.pe.student.domain.model.Student;
-import com.vallegrande.edu.pe.student.infraestructure.adapter.in.rest.exception.UniqueFiledViolationException;
+import com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.exception.UniqueFiledViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,20 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentServicePort {
-    private final StudentRepository repository;
+    private final StudentPersistencePort persistencePort;
     @Qualifier("studentRequestMapperImpl")
-    private final StudentRequestMapper mapperForCreate;
+    private final StudentRequestMapper studentRequestMapper;
 
     @Override
     public Student createStudent(StudentRequest student) {
         validateUniqueFields(student);
-        var studentToSave = mapperForCreate.toDomain(student);
-        return repository.save(studentToSave);
+        var studentToSave = studentRequestMapper.toDomain(student);
+        return persistencePort.save(studentToSave);
     }
 
     @Override
     public Student updateStudent(Long id, StudentRequest student) {
-        Student existingStudent = repository.findById(id)
+        Student existingStudent = persistencePort.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
         validateUniqueFields(student);
@@ -42,47 +42,53 @@ public class StudentServiceImpl implements StudentServicePort {
         existingStudent.setDni(student.getDni());
         existingStudent.setStatus(true);
 
-        return repository.update(existingStudent);
+        return persistencePort.update(existingStudent);
     }
 
     @Override
     public Student getStudentById(Long id) {
-        return repository.findById(id)
+        return persistencePort.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 
     @Override
     public List<Student> getAllStudents() {
-        return repository.findAll();
+        return persistencePort.findAll();
     }
 
     @Override
     public List<Student> getStudentsByStatus(boolean status) {
-        return repository.findByStatus(status);
+        return persistencePort.findByStatus(status);
     }
 
     @Override
     public void changeStudentStatus(Long id, boolean status) {
-        repository.changeStatus(id, status);
+        persistencePort.changeStatus(id, status);
     }
 
     @Override
     public List<Student> searchStudent(String searchTerm, boolean status) {
         if (searchTerm == null || searchTerm.isEmpty()) {
-            return repository.findByStatus(status);
+            return persistencePort.findByStatus(status);
         }
-        return repository.searchByTerm(searchTerm, status);
+        return persistencePort.searchByTerm(searchTerm, status);
     }
 
     private void validateUniqueFields(StudentRequest student) {
-        if (repository.existsByPhone(student.getPhone())) {
-            throw new UniqueFiledViolationException("Phone already exists");
+        UniqueFiledViolationException exception = new UniqueFiledViolationException();
+
+        if (persistencePort.existsByPhone(student.getPhone())) {
+            exception.addFieldError("phone", "Phone already exists");
         }
-        if (repository.existsByEmail(student.getEmail())) {
-            throw new UniqueFiledViolationException("Email already exists");
+        if (persistencePort.existsByEmail(student.getEmail())) {
+            exception.addFieldError("email", "Email already exists");
         }
-        if (repository.existsByDni(student.getDni())) {
-            throw new UniqueFiledViolationException("DNI already exists");
+        if (persistencePort.existsByDni(student.getDni())) {
+            exception.addFieldError("dni", "DNI already exists");
+        }
+
+        if (!exception.getFieldErrors().isEmpty()) {
+            throw exception;
         }
     }
 

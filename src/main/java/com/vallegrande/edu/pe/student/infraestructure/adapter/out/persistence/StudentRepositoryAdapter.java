@@ -1,6 +1,6 @@
 package com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence;
 
-import com.vallegrande.edu.pe.student.domain.repository.StudentRepository;
+import com.vallegrande.edu.pe.student.domain.port.StudentPersistencePort;
 import com.vallegrande.edu.pe.student.domain.model.Student;
 import com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.entity.StudentEntity;
 import com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.mapper.StudentMapper;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class StudentRepositoryAdapter implements StudentRepository {
+public class StudentRepositoryAdapter implements StudentPersistencePort {
     private final StudentJpaRepository studentJpaRepository;
     private final StudentMapper studentMapper;
 

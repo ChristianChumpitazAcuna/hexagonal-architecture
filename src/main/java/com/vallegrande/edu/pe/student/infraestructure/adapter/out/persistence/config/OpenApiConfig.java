@@ -1,4 +1,4 @@
-package com.vallegrande.edu.pe.student.infraestructure.config;
+package com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.config;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;

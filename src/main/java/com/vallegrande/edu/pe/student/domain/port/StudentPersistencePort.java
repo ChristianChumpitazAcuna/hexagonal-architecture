@@ -1,11 +1,11 @@
-package com.vallegrande.edu.pe.student.domain.repository;
+package com.vallegrande.edu.pe.student.domain.port;
 
 import com.vallegrande.edu.pe.student.domain.model.Student;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface StudentRepository {
+public interface StudentPersistencePort {
     Student save(Student student);
 
     Student update(Student student);
