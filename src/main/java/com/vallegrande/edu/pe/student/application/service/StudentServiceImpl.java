@@ -5,6 +5,7 @@ import com.vallegrande.edu.pe.student.application.port.out.mapper.StudentRequest
 import com.vallegrande.edu.pe.student.domain.model.dto.request.StudentRequest;
 import com.vallegrande.edu.pe.student.domain.port.StudentPersistencePort;
 import com.vallegrande.edu.pe.student.domain.model.Student;
+import com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.exception.StudentNotFoundException;
 import com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.exception.UniqueFiledViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,7 +30,7 @@ public class StudentServiceImpl implements StudentServicePort {
     @Override
     public Student updateStudent(Long id, StudentRequest student) {
         Student existingStudent = persistencePort.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
 
         validateUniqueFields(student);
 
@@ -48,7 +49,7 @@ public class StudentServiceImpl implements StudentServicePort {
     @Override
     public Student getStudentById(Long id) {
         return persistencePort.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID: " + id));
     }
 
     @Override

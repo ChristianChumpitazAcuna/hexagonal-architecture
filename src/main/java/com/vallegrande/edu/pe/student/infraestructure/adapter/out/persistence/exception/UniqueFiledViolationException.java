@@ -2,20 +2,23 @@ package com.vallegrande.edu.pe.student.infraestructure.adapter.out.persistence.e
 
 
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Getter
 public class UniqueFiledViolationException extends RuntimeException {
-    private final Map<String, String> fieldErrors;
+    private final ApiError apiError;
 
     public UniqueFiledViolationException() {
-        fieldErrors = new HashMap<>();
+        this.apiError = new ApiError(HttpStatus.BAD_REQUEST);
     }
 
     public void addFieldError(String field, String value) {
-        fieldErrors.put(field, value);
+        apiError.addError(field, value);
     }
 
+    public Map<String, String> getFieldErrors() {
+        return apiError.getErrors();
+    }
 }

@@ -31,7 +31,8 @@ public class StudentRequest {
 
     @NotNull(message = "Address is required")
     @Size(min = 10, max = 100)
-    @Pattern(regexp = "^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\\s]+$", message = "Address must have only letters and numbers")
+    @Pattern(regexp = "^[A-ZÁÉÍÓÚÑa-záéíóúñ]{2,3}\\.\\s(?:[A-ZÁÉÍÓÚÑa-záéíóúñ0-9]+\\s?)+(?:de\\s)?(?:[A-ZÁÉÍÓÚÑa-záéíóúñ]+\\s?)*\\d+$",
+            message = "Address must have only letters and numbers")
     private String address;
 
     @DigitCount(digits = 8, message = "DNI must have {digits} digits")
